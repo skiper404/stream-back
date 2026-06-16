@@ -1,3 +1,36 @@
 1. Добавил форматирование (Prettier/eslint/trivago)
+
 2. Добавил Config модуль что бы читать .env. в проекте
-3. Добавил Prisma (Neon)
+
+3. Добавил Prisma (Neon) (см документация Next + Prisma)
+
+4. Добавил GraphQL (cм документация Next + GraphQL)
+
+5. Создал isDev и parseBoolean утилиту
+
+6. Создаю фабрику для GraphQL конфига что бы был DI подход и AppModule оставался чистым.
+    Playground теперь определяю динамически через isDev
+
+7. Добавил игнорирование .env файла в ConfigModule для безопасности
+
+8. Добавляю
+    npm i cookie-parser - парсить куки из заголовков
+    npm i express-session - middleware для управления сессиями
+    npm i connect-redis - что бы в express-session использовать redis cookie-parser
+    npm i ioredis - сама библиотека для работы с redis
+
+9. Добавил Redis (Redis Cloud) Получил ссылку и подключился через Redis Insight для проверки
+
+10. Добавляю APPLICATION_PORT, APPLICATION_URL, ALLOWER_ORIGIN и SESSIONS переменные в env
+
+11. В main.ts создаю переменную config и прокидываю в нее ConfigService что бы вытягивать значения из env прям тут.
+    Импортирую import cookieParser from 'cookie-parser'
+    app.use(cookieParser(config.getOrThrow<string>('COOKIE_SECRET'))) // для безопасности
+	  app.useGlobalPipes(new ValidationPipe({ transform: true })) // обрабатывает входящие данные перед тем, как они попадут в контроллер/резолвер,
+    transform: true автоматически преобразует данные в экземпляры классови приводит типы к тем как указано в DTO
+
+12. Тут же настраиваю cors, добавляю настройку использовани сессий и добавляю RedisModule.
+
+13. Добавляю
+    npm i class-validator - валидирует данные на основе декораторов DTO
+    npm i class-transformer - преобразует plain JSON входящие данные в экземпляры классов (ValidationPipe({transform: true}) - для корректной работы)
