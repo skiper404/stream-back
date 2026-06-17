@@ -33,7 +33,6 @@ async function bootstrap() {
     store: new RedisStore({ client: redis.client, prefix: config.getOrThrow('SESSION_FOLDER') + ':' }),
 
     cookie: {
-      // domain: config.getOrThrow('SESSION_DOMAIN'),
       maxAge: Number(ms(config.getOrThrow('SESSION_MAX_AGE'))),
       httpOnly: parseBoolean(config.getOrThrow('SESSION_HTTP_ONLY')),
       secure: parseBoolean(config.getOrThrow('SESSION_SECURE')),
@@ -43,6 +42,6 @@ async function bootstrap() {
 
   app.use(session(sessionOptions))
 
-  await app.listen(process.env.APPLICATION_PORT ?? 3000)
+  await app.listen(config.getOrThrow('APPLICATION_PORT'))
 }
 void bootstrap()

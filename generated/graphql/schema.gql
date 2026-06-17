@@ -2,11 +2,30 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Query {
-  users: [UserModel!]!
+input CreateUserInput {
+  email: String!
+  password: String!
+  username: String!
 }
 
-type UserModel {
+input LoginUserInput {
+  login: String!
+  password: String!
+}
+
+type Mutation {
+  createUser(data: CreateUserInput!): Boolean!
+  loginUser(data: LoginUserInput!): Boolean!
+  logoutUser: Boolean!
+}
+
+type Query {
+  getUsers: [UserDto!]!
+}
+
+type UserDto {
   email: String!
   id: ID!
+  password: String!
+  username: String!
 }

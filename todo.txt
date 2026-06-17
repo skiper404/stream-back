@@ -34,3 +34,45 @@
 13. Добавляю
     npm i class-validator - валидирует данные на основе декораторов DTO
     npm i class-transformer - преобразует plain JSON входящие данные в экземпляры классов (ValidationPipe({transform: true}) - для корректной работы)
+14. Генерирую первую сущность modules/auth/account
+    Описал тестовый getAll сервис и ресолвер
+    Сделал первый тестовый запрос по http://localhost:3000/graphql и в постмане все работает!!!
+    query FindAllUsers {
+	    getAll {id, email, avatar}
+    }
+15. Добавляю первый метод (service) на создание пользователя createUser
+
+    @Mutation(() => UserModel, { name: 'createUser' })
+	  public async create(@Args('data') input: CreateUserInput) {
+		  return this.accountService.create(input)
+	  }
+
+  //playground
+
+    mutation CreateUser($data: CreateUserInput!) {.
+      createUser(data: $data) {
+        id,
+        email,
+        username,
+      }
+    }
+
+    //
+
+  {
+    "data": {
+        "username": "Skiper4",
+        "email": "stetsenkoki4@gmail.com",
+        "password": "12345678"
+    }
+  }
+
+  CreateUser - просто любое но осмысленное имя мутации
+  createUser - потому что назвад так мутицию @Mutation(() => UserModel, { name: 'createUser' }) так к ней и обращаюсь
+  data - так называю объект потому что в @Args('data') сам указал
+
+16. Создаю сушность для сессии
+17. Описываю логику логина и при успехе надо сохранять сессию в Redis
+    Для этого нужно создать функцию SaveSession которая добавляет в обьект req поля createdAt, userId, metadata.
+    Перед этим создаю декларативный файл в shared/types - express-session по умолчанию даёт интерфейс SessionData, который почти пустой: там только стандартные поля в которые и добавляю createdAt, userId, metadata.
+    Если в req.session добавляешь свои поля (userId, metadata и т.д.), TS будет их знать и не будет ругаться после определения декларативного файла
