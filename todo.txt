@@ -76,3 +76,118 @@
     Для этого нужно создать функцию SaveSession которая добавляет в обьект req поля createdAt, userId, metadata.
     Перед этим создаю декларативный файл в shared/types - express-session по умолчанию даёт интерфейс SessionData, который почти пустой: там только стандартные поля в которые и добавляю createdAt, userId, metadata.
     Если в req.session добавляешь свои поля (userId, metadata и т.д.), TS будет их знать и не будет ругаться после определения декларативного файла
+
+18. По аналогии Logout матод заверщения сессии тоже возвращает промис который уже вместо метода save() использует destroy() ловим ошибку и возвращаем true типо все ок
+    и тут же очищаю куку
+				req.res?.clearCookie(m
+					this.configService.getOrThrow<string>('SESSION_NAME')
+				)
+
+20. Тестирую. Создаеться/удаляется сессия в Redis и кука
+
+21. Создаю guard gql-auth.guard и два декоратора auth.decorator, authorized.decorator (почитать что как устроено!)
+    Guard проверяет, есть ли пользователь в сессии, достаёт его из Redis и кладёт в req.user. Если нет — выбрасывает ошибку.
+    auth.decorator.ts - это просто синтаксический сахар, чтобы не писать @UseGuards(GqlAuthGuard) каждый раз в резолверах.
+
+22. Добавил еще два метода два работыт с сессиями: clearSession - удаляет сессию из кук и removeSession - удаляет сессию из Redis.
+
+23. Описываю метод me который возвращает user по id.
+
+24. Теперь база готова начинаю усложнять. Описываю в типах session-metadata.types.ts для автодополнения
+
+25. Описываю утилиту session-metadata.utils.ts
+    npm i geoip-lite - для определения положения
+    npm i device-detector-js - для получения инфо об устройстве
+    npm i i18n-iso-countries - для конвертирования кода страны в польные названия
+
+26. Добавляю metadata в метод login и после этого описываю еще один декоратор user-agent.decorator.ts
+
+27. Тестирую логин и получаю в редисе дополненный обьект с метадатой
+
+28. Описываю логику получения всех сессий. Добавляю redisService. Описал findByUser, findCurrent, sessionModel
+
+29. Протестировал корректно дописываються разные сессии и устройства!
+
+30. Добавляю почтовый сервер.
+    npm i @nestjs-modules/mailer - почтовый клиент
+
+31. Пробовал разные варианты и в итоге выбрал (brevo.com) добавил данные в env. И написал Mailer.config.ts
+    MAIL_HOST='smtp-relay.brevo.com'
+    MAIL_PORT=587
+    MAIL_LOGIN='9e93e7001@smtp-brevo.com'
+    MAIL_PASSWORD='LKMZQndhJ0YywaIm'
+
+32. Генерирую сушность modules/libs/mail
+
+33. Генерирую сущность modules/auth/verification
+
+34. Описываю модель в призме Token и enum TokenType и делаю пуш данных в базу
+
+35. Описал verification.input.ts - его буду прокидывать с фронта
+
+36. Описываю verify метод.
+
+37. Создал отдельную уилиту генерации токена genereate-token.util.ts
+
+38. Возвращаюсь в verification.service и описываю SendVerificationToken()
+
+39. Описываю verification resolver (verify)
+
+40. В accounService добавляю методы verify. Дабавляю verificationService.
+    Так хорошо токен при createAccount и при логине создаеться. При этом не могу войти потому что поставил ограниченре что можно только если почта подтверждена
+
+    Дописываю если isUUID: boolean = false (в generateToken) тогда вводиться 6 значный код
+    важно что указываю await generateToken(this.prismaService, user, TokenType.EMAIL_VERIFY, true) true. все таки поставил там true (потому что в 62 пункте токен врмировался шестизначным числом а не UUID)
+
+41. Оформляю отправку письма на почту
+    npm i @react-email/components - для шаблонов писем
+    npm i @react-email/tailwind - для поддержки tailwind
+    npm i @types/react - типизация для реакта
+    npm i react-dom - иногда ошибка при запуске сервера
+
+42. Оформил шаблон сообщения на почту. Все работает! При регистрации приходит письмо! При логине тоже идет отправка если email не верифицирован!
+
+43. Добавляю сущность password-recovery. Описываю инпут и resetPassword
+
+44. Описываю sendPasswordResetToken по аналогии с sendVerificationToken (в mailService)
+
+45. D PasswordRecovery дописываю в метод метадату и дописываю метод sendPasswordResetToken
+
+46. Описываю инпут newpassword.input
+
+47. Описал метод NewPassword. и мутацию. Тестирую. Работает!
+
+48. Добавляю TOTP (time-based one-time password)
+    npm i otplib - библиотека для работы с TOTP
+    npm i qrcode - бибилиотека для генерациии qr кодов
+
+49. добавляю totp поля в User model в призме isTotpEnabled и totpSecret
+
+50. Описываю метод generate enable disable и ресолверы
+
+51. дописываю пин в инпуте и дописываю проверки в sessionService
+
+52. Описываю еще одну модель в account/models auth.model добавляя еше туда поле message. Заканчиваю тестирую все работает!
+
+53. Теперь работаю с деактивацией аккаунта. создаю email шаблон
+
+54. описываю validateDeactivateToken service
+
+55. потом описываю sendDeactivateToken
+
+56. Создаю deactivate-account.input
+
+57. Дописал deactivate service и resolver протестировал (вручнуюу указывал что isEmailVerified = true)
+    и отправлял запрос сначала без pin писало что проверьте пин на почте на почте и в базе он появлялся вставлял в запрос уже строку с полем пин
+    и пользователь декативировался записать в бд обновлялась! работает!
+
+58. Добавляю CRON - инструмент планирования задач
+    npm i @nestjs/schedule
+
+59. добавляю сущность cromn описыываю удаление неактивных пользователей
+
+60. Описываю change-email.input change-password.input
+
+61. Описываю метода с этими инпутами в accountService. Тестирую смену емейла и пароля! работает!
+
+62 Начинаю ратотать с S3 хранилищем (Cloudflare R2)

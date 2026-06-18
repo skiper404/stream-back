@@ -9,6 +9,12 @@ import { PrismaModule } from './prisma/prisma.module'
 import { RedisModule } from './redis/redis.module'
 import { AccountModule } from 'src/modules/auth/account/account.module'
 import { SessionModule } from 'src/modules/auth/session/session.module'
+import { MailModule } from 'src/modules/libs/mail/mail.module'
+import { VerificationModule } from 'src/modules/auth/verification/verification.module'
+import { PasswordRecoveryModule } from 'src/modules/auth/password-recovery/password-recovery.module'
+import { TotpModule } from 'src/modules/auth/totp/totp.module'
+import { DeactivationModule } from 'src/modules/auth/deactivation/deactivation.module'
+import { CronModule } from 'src/modules/cron/cron.module'
 
 @Module({
   imports: [
@@ -22,7 +28,13 @@ import { SessionModule } from 'src/modules/auth/session/session.module'
     PrismaModule,
     RedisModule,
     AccountModule,
-    SessionModule
+    SessionModule,
+    MailModule,
+    VerificationModule,
+    PasswordRecoveryModule,
+    TotpModule,
+    DeactivationModule,
+    CronModule
   ]
 })
 export class AppModule {}

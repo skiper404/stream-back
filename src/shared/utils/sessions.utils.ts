@@ -3,13 +3,13 @@ import { GqlContext } from '../types/gql-context.type'
 import { InternalServerErrorException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
-export async function saveSession(context: GqlContext, user: User) {
+export async function saveSession(context: GqlContext, user: User, metadata: any) {
   const { req } = context
 
   return new Promise((resolve, reject) => {
     req.session.createdAt = new Date()
     req.session.userId = user.id
-    req.session.metadata = null
+    req.session.metadata = metadata
 
     req.session.save((error) => {
       if (error) {
