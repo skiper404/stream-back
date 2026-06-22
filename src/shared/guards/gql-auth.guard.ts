@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { type CanActivate, type ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { PrismaService } from 'src/core/prisma/prisma.service'

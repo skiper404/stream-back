@@ -14,6 +14,9 @@ model User {
   username String @unique
   password String
 
+  avatar String?
+  bio String?
+
   isVerified Boolean @default(false)
   isEmailVerified Boolean @default(false)
   isTotpEnabled  Boolean @default(false)
@@ -23,6 +26,8 @@ model User {
   deactivatedAt DateTime?
 
   tokens Token[]
+  socialLinks SocialLink[]
+  stream Stream?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -44,6 +49,59 @@ model Token {
 
   @@map("tokens")
 }
+
+model SocialLink {
+  id        String   @id @default(uuid())
+  title     String
+  url       String
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("social_links")
+}
+
+model Stream {
+  id           String  @id @default(uuid())
+  title        String
+  thumbnailUrl String?
+
+  serverUrl    String?
+  ingressId    String?       @unique
+  isLive       Boolean       @default(false)
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @unique
+
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String?    @map("category_id")
+
+  isChatEnabled              Boolean @default(true)
+  isChatFollowersOnly        Boolean @default(false)
+  isChatPremiumFollowersOnly Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("streams")
+}
+
+model Category {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  description  String?
+  thumbnailUrl String   @map("thumbnail_url")
+  streams      Stream[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("category")
+}
+
+
 
 enum TokenType {
   EMAIL_VERIFY

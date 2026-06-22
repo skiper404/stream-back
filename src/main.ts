@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './core/app.module'
+import { CoreModule } from './core/core.module'
 import { ConfigService } from '@nestjs/config'
 import cookieParser from 'cookie-parser'
 import { ValidationPipe } from '@nestjs/common'
@@ -8,15 +8,15 @@ import ms from 'ms'
 import { parseBoolean } from './shared/utils/parse-boolean.utils'
 import { RedisService } from './core/redis/redis.service'
 import { RedisStore } from 'connect-redis'
+import { graphqlUploadExpress } from 'graphql-upload-ts'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(CoreModule)
 
   const config = app.get(ConfigService)
   const redis = app.get(RedisService)
 
   app.use(cookieParser(config.getOrThrow('COOKIE_SECRET')))
-  app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
   app.enableCors({
     origin: config.getOrThrow<string>('ALLOWED_ORIGIN'),
@@ -41,6 +41,10 @@ async function bootstrap() {
   }
 
   app.use(session(sessionOptions))
+
+  app.use(config.getOrThrow('GRAPHQL_PREFIX'), graphqlUploadExpress())
+
+  app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
   await app.listen(config.getOrThrow('APPLICATION_PORT'))
 }

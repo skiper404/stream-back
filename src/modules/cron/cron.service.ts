@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/core/prisma/prisma.service'
 import { MailService } from '../libs/mail/mail.service'
 import { Cron, CronExpression } from '@nestjs/schedule'
+import { StorageService } from '../libs/storage/storage.service'
 
 @Injectable()
 export class CronService {
   public constructor(
     private readonly prismaService: PrismaService,
-    private readonly mailService: MailService
+    private readonly mailService: MailService,
+    private readonly storageService: StorageService
   ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
@@ -25,9 +27,9 @@ export class CronService {
       //   await this.telegramService.sendAccounDeletion(user.telegramId)
       // }
 
-      // if (user.avatar) {
-      //   await this.storageService.remove(user.avatar)
-      // }
+      if (user.avatar) {
+        await this.storageService.remove(user.avatar)
+      }
 
       // if (user.stream?.thumbnailUrl) {
       //   await this.storageService.remove(user.stream.thumbnailUrl)

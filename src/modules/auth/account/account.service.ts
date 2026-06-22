@@ -3,9 +3,10 @@ import { PrismaService } from 'src/core/prisma/prisma.service'
 import { CreateUserInput } from './inputs/create-user.input'
 import { hash, verify } from 'argon2'
 import { VerificationService } from '../verification/verification.service'
-import { User } from 'generated/prisma/client'
+import type { User } from 'generated/prisma/client'
 import { ChangeEmailInput } from './inputs/change-email.input'
 import { ChangePasswordInput } from './inputs/change-password.input'
+import { Authorization } from 'src/shared/decorators/auth.decorator'
 
 @Injectable()
 export class AccountService {
@@ -14,6 +15,7 @@ export class AccountService {
     private verificationService: VerificationService
   ) {}
 
+  @Authorization()
   async me(user: User) {
     return await this.prismaService.user.findUnique({ where: { id: user.id } })
   }
@@ -33,13 +35,16 @@ export class AccountService {
       }
     }
 
-    const newUser = await this.prismaService.user.create({ data: { username, email, password: await hash(password) } })
+    const newUser = await this.prismaService.user.create({
+      data: { username, email, password: await hash(password), stream: { create: { title: `Стрим ${username}` } } }
+    })
 
     await this.verificationService.sendVerificationToken(newUser)
 
     return true
   }
 
+  @Authorization()
   async changeEmail(user: User, input: ChangeEmailInput) {
     const { email } = input
 
@@ -48,6 +53,7 @@ export class AccountService {
     return true
   }
 
+  @Authorization()
   async changePassword(user: User, input: ChangePasswordInput) {
     const { newPassword, oldPassword } = input
 

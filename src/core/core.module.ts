@@ -15,6 +15,10 @@ import { PasswordRecoveryModule } from 'src/modules/auth/password-recovery/passw
 import { TotpModule } from 'src/modules/auth/totp/totp.module'
 import { DeactivationModule } from 'src/modules/auth/deactivation/deactivation.module'
 import { CronModule } from 'src/modules/cron/cron.module'
+import { ProfileModule } from 'src/modules/auth/profile/profile.module'
+import { StorageModule } from 'src/modules/libs/storage/storage.module'
+import { StreamModule } from 'src/modules/stream/stream.module'
+import { LivekitModule } from 'src/modules/libs/livekit/livekit.module'
 
 @Module({
   imports: [
@@ -34,7 +38,11 @@ import { CronModule } from 'src/modules/cron/cron.module'
     PasswordRecoveryModule,
     TotpModule,
     DeactivationModule,
-    CronModule
+    CronModule,
+    StorageModule,
+    ProfileModule,
+    StreamModule,
+    LivekitModule
   ]
 })
-export class AppModule {}
+export class CoreModule {}
