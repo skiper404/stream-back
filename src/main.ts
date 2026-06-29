@@ -13,7 +13,7 @@ async function bootstrap() {
   const config = app.get(ConfigService)
   const redis = app.get(RedisService)
 
-  app.getHttpAdapter().getInstance().set('trust proxy', 1)
+  // app.getHttpAdapter().getInstance().set('trust proxy', 1)
   app.use(cookieParser(config.getOrThrow('COOKIE_SECRET')))
 
   app.enableCors({
@@ -23,6 +23,7 @@ async function bootstrap() {
   })
 
   const sessionOptions: SessionOptions = {
+    proxy: true,
     secret: config.getOrThrow('SESSION_SECRET'),
     name: config.getOrThrow('SESSION_NAME'),
     resave: false,
