@@ -12,8 +12,8 @@ async function bootstrap() {
   const app = await NestFactory.create(CoreModule)
   const config = app.get(ConfigService)
   const redis = app.get(RedisService)
-  app.getHttpAdapter().getInstance().set('trust proxy', 1)
 
+  // app.getHttpAdapter().getInstance().set('trust proxy', 1)
   app.use(cookieParser(config.getOrThrow('COOKIE_SECRET')))
 
   app.enableCors({
@@ -33,8 +33,8 @@ async function bootstrap() {
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 дней
       httpOnly: config.getOrThrow('SESSION_HTTP_ONLY') === 'true', // нельзя читать с клиента
-      secure: true, // true - https only
-      sameSite: 'none'
+      secure: config.getOrThrow('SESSION_SECURE') === 'true', // true - https only
+      sameSite: config.getOrThrow('SESSION_SAME_SITE')
     }
   }
 
