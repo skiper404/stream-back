@@ -13,7 +13,7 @@ export async function getSessionMetadata(userAgent: string): Promise<SessionMeta
 
   return {
     location: { country: data.country_name, city: data.city },
-    device: { browser: device.client!.type, os: device.os!.name },
+    device: { browser: device.client?.type ?? 'Unknown', os: device.os?.name ?? 'Unknown' },
     ip: data.ip
   }
 }

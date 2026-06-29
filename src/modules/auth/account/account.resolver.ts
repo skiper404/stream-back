@@ -13,9 +13,9 @@ export class AccountResolver {
   constructor(private readonly accountService: AccountService) {}
 
   @Authorization()
-  @Query(() => UserModel, { name: 'getMe' })
-  public async getMe(@CurrentUser() user: User) {
-    return this.accountService.me(user)
+  @Query(() => UserModel, { name: 'getUser' })
+  public async getUser(@CurrentUser() user: User) {
+    return this.accountService.user(user)
   }
 
   @Mutation(() => Boolean, { name: 'createUser' })

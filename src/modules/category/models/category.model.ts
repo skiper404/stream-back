@@ -1,9 +1,10 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
 
 import { StreamModel } from '../../stream/models/stream.model'
+import { Category } from 'generated/prisma/client'
 
 @ObjectType({})
-export class CategoryModel {
+export class CategoryModel implements Category {
   @Field(() => ID)
   public id: string
 
@@ -13,8 +14,8 @@ export class CategoryModel {
   @Field(() => String)
   public slug: string
 
-  @Field(() => String, { nullable: true })
-  public description?: string
+  @Field(() => String)
+  public description: string
 
   @Field(() => String)
   public thumbnailUrl: string

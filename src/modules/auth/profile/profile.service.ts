@@ -52,9 +52,16 @@ export class ProfileService {
     return true
   }
 
+  // public async changeBio(user: User, input: BioInput) {
+  //   const { bio } = input
+  //   await this.prismaService.user.update({ where: { id: user.id }, data: { bio } })
+
+  //   return true
+  // }
+
   public async changeBio(user: User, input: BioInput) {
     const { bio } = input
-    await this.prismaService.user.update({ where: { id: user.id }, data: { bio } })
+    await this.prismaService.user.update({ where: { id: '59f031b5-e284-4187-984d-43b064928738' }, data: { bio } })
 
     return true
   }

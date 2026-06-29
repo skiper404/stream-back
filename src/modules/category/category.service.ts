@@ -21,12 +21,15 @@ export class CategoryService {
   public async findRandom() {
     const total = await this.prismaService.category.count()
 
+    console.log(total)
+
     const randomIndexes = new Set<number>()
 
     while (randomIndexes.size < 7) {
       const randomIndex = Math.floor(Math.random() * total)
       randomIndexes.add(randomIndex)
     }
+
     const categories = await this.prismaService.category.findMany({
       include: {
         streams: { include: { category: true, user: true } }
@@ -45,7 +48,7 @@ export class CategoryService {
     })
 
     if (!category) {
-      throw new NotFoundException('Категория не найдена')
+      throw new NotFoundException('Category not found')
     }
 
     return category

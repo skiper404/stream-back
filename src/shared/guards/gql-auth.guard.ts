@@ -11,6 +11,9 @@ export class GqlAuthGuard implements CanActivate {
 
     const req = ctx.getContext().req
 
+    console.log('SESSION RAW:', req.session)
+    console.log('SESSION ID COOKIE:', req.sessionID)
+
     if (typeof req.session.userId === 'undefined') {
       throw new UnauthorizedException('User unauthorized')
     }

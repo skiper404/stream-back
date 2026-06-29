@@ -6,7 +6,7 @@ import getRawBody from 'raw-body'
 export class RawBodyMiddleware implements NestMiddleware {
   public use(req: Request, res: Response, next: NextFunction) {
     if (!req.readable) {
-      return next(new BadRequestException('Невалидные данные запроса'))
+      return next(new BadRequestException('Invalid data query'))
     }
     getRawBody(req, { encoding: 'utf-8' })
       .then((rawBody) => {
@@ -14,8 +14,7 @@ export class RawBodyMiddleware implements NestMiddleware {
         next()
       })
       .catch((error: any) => {
-        throw new BadRequestException('Ошибка при получении:', error)
-        next(error)
+        throw new BadRequestException('Error:', error)
       })
   }
 }

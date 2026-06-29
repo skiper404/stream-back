@@ -15,8 +15,7 @@ export class AccountService {
     private verificationService: VerificationService
   ) {}
 
-  @Authorization()
-  async me(user: User) {
+  async user(user: User) {
     return await this.prismaService.user.findUnique({ where: { id: user.id } })
   }
 
@@ -36,7 +35,7 @@ export class AccountService {
     }
 
     const newUser = await this.prismaService.user.create({
-      data: { username, email, password: await hash(password), stream: { create: { title: `Стрим ${username}` } } }
+      data: { username, email, password: await hash(password), stream: { create: { title: `Stream ${username}` } } }
     })
 
     await this.verificationService.sendVerificationToken(newUser)

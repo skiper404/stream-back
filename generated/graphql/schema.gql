@@ -6,6 +6,23 @@ input BioInput {
   bio: String!
 }
 
+type CategoryModel {
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  slug: String!
+  streams: [StreamModel!]!
+  thumbnailUrl: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
+input ChangeChatSettingsInput {
+  isChatEnabled: Boolean!
+  isChatFollowersOnly: Boolean!
+  isChatPremiumFollowersOnly: Boolean!
+}
+
 input ChangeEmailInput {
   email: String!
 }
@@ -18,6 +35,17 @@ input ChangePasswordInput {
 input ChangeStreamInfoInput {
   categoryId: String!
   title: String!
+}
+
+type ChatMessageModel {
+  createdAt: DateTime!
+  id: ID!
+  stream: StreamModel!
+  streamId: String!
+  text: String!
+  updatedAt: DateTime!
+  user: UserModel!
+  userId: String!
 }
 
 input CreateUserInput {
@@ -53,6 +81,21 @@ input FiltersInput {
   take: Float
 }
 
+input GenerateStreamTokenInput {
+  channelId: String!
+  userId: String!
+}
+
+type GenerateStreamTokenModel {
+  token: String!
+}
+
+type IngressModel {
+  ingressId: String
+  serverUrl: String
+  streamKey: String
+}
+
 type LocationModel {
   city: String!
   country: String!
@@ -64,6 +107,7 @@ input LoginUserInput {
 }
 
 type Mutation {
+  changeChatSettings(data: ChangeChatSettingsInput!): Boolean!
   changeEmail(data: ChangeEmailInput!): Boolean!
   changePassword(data: ChangePasswordInput!): Boolean!
   changeProfileAvatar(avatar: Upload!): Boolean!
@@ -71,19 +115,23 @@ type Mutation {
   changeStreamInfo(data: ChangeStreamInfoInput!): Boolean!
   changeStreamThumbnail(thumbnail: Upload!): Boolean!
   clearSessionCookie: Boolean!
+  createIngress: Boolean!
   createSocialLink(data: SocialLinkInput!): Boolean!
   createUser(data: CreateUserInput!): Boolean!
   deactivateAccount(data: DeactivateAccountInput!): UserModel!
   disableTotp: Boolean!
   enableTotp(data: EnableTotpInput!): Boolean!
+  generateStreamToken(data: GenerateStreamTokenInput!): GenerateStreamTokenModel!
   loginUser(data: LoginUserInput!): Boolean!
   logoutUser: Boolean!
   newPassword(data: NewPasswordInput!): Boolean!
+  removeIngresses: Boolean!
   removeProfileAvatar: Boolean!
   removeSession(id: String!): Boolean!
   removeSocialLink(id: String!): Boolean!
   removeStreamThumbnail: Boolean!
   resetPassword(data: ResetPasswordInput!): Boolean!
+  sendChatMessage(data: SendMessageInput!): ChatMessageModel!
   verifyAccount(data: VerificationInput!): Boolean!
 }
 
@@ -94,17 +142,33 @@ input NewPasswordInput {
 }
 
 type Query {
+  findAllCategories: [CategoryModel!]!
+  findCategoryBySlug(slug: String!): CategoryModel!
+  findChatMessagesByStream(streamId: String!): [ChatMessageModel!]!
+  findRandomCategories: [CategoryModel!]!
   findRandomStreams: [StreamModel!]!
   generateTotpSecret: TotpModel!
+  getAllMessages: [ChatMessageModel!]!
   getAllStreams(filters: FiltersInput!): [StreamModel!]!
   getCurrentSession: SessionModel!
-  getMe: UserModel!
+  getIngresses: [IngressModel!]!
+  getRooms: [RoomModel!]!
   getSocialLinks: [SocialLinkModel!]!
+  getUser: UserModel!
   getUserSessions: [SessionModel!]!
 }
 
 input ResetPasswordInput {
   email: String!
+}
+
+type RoomModel {
+  name: String!
+}
+
+input SendMessageInput {
+  streamId: String!
+  text: String!
 }
 
 type SessionMetadataModel {
@@ -149,6 +213,10 @@ type StreamModel {
   updatedAt: DateTime!
   user: UserModel!
   userId: String!
+}
+
+type Subscription {
+  chatMessageAdded: ChatMessageModel!
 }
 
 type TotpModel {

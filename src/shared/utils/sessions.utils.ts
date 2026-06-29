@@ -17,6 +17,11 @@ export async function saveSession(context: GqlContext, user: User, metadata: any
       }
 
       resolve(true)
+
+      console.log('сессия сохранилась')
+      console.log(req.secure)
+      console.log(req.protocol)
+      console.log(req.headers['x-forwarded-proto'])
     })
   })
 }

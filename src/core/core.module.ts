@@ -18,7 +18,10 @@ import { CronModule } from 'src/modules/cron/cron.module'
 import { ProfileModule } from 'src/modules/auth/profile/profile.module'
 import { StorageModule } from 'src/modules/libs/storage/storage.module'
 import { StreamModule } from 'src/modules/stream/stream.module'
-import { LivekitModule } from 'src/modules/libs/livekit/livekit.module'
+import { IngressModule } from 'src/modules/stream/ingress/ingress.module'
+import { WebhookModule } from 'src/modules/webhook/webhook.module'
+import { CategoryModule } from 'src/modules/category/category.module'
+import { ChatModule } from 'src/modules/chat/chat.module'
 
 @Module({
   imports: [
@@ -42,7 +45,10 @@ import { LivekitModule } from 'src/modules/libs/livekit/livekit.module'
     StorageModule,
     ProfileModule,
     StreamModule,
-    LivekitModule
+    IngressModule,
+    WebhookModule,
+    CategoryModule,
+    ChatModule
   ]
 })
 export class CoreModule {}

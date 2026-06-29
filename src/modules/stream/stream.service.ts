@@ -1,5 +1,5 @@
-import sharp from 'sharp'
 import { Injectable, NotFoundException } from '@nestjs/common'
+import sharp from 'sharp'
 import { PrismaService } from 'src/core/prisma/prisma.service'
 import { FiltersInput } from './input/filters.input'
 import { Prisma, User } from 'generated/prisma/client'
@@ -28,8 +28,8 @@ export class StreamService {
       skip: skip ?? 0,
       where: { user: { isDeactivated: false }, ...whereClause },
       include: {
-        user: true
-        // category: true
+        user: true,
+        category: true
       },
       orderBy: {
         createdAt: 'desc'
@@ -141,7 +141,7 @@ export class StreamService {
     } else {
       self = {
         id: userId,
-        username: `Зритель ${Math.floor(Math.random() * 100000)}`
+        username: `User ${Math.floor(Math.random() * 100000)}`
       }
     }
 
@@ -150,7 +150,7 @@ export class StreamService {
     })
 
     if (!channel) {
-      throw new NotFoundException('Канал не найден')
+      throw new NotFoundException('Channel not found')
     }
 
     const isHost = self.id === channel.id
@@ -167,7 +167,7 @@ export class StreamService {
     token.addGrant({
       room: channel.id,
       roomJoin: true,
-      canPublish: false
+      canPublish: isHost
     })
 
     return { token: token.toJwt() }

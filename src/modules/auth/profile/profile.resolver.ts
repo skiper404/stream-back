@@ -29,7 +29,7 @@ export class ProfileResolver {
     return this.profileService.removeAvatar(user)
   }
 
-  @Authorization()
+  // @Authorization()
   @Mutation(() => Boolean, { name: 'changeProfileBio' })
   public async changeBio(@CurrentUser() user: User, @Args('data') input: BioInput) {
     return this.profileService.changeBio(user, input)

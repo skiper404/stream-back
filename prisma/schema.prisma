@@ -28,6 +28,7 @@ model User {
   tokens Token[]
   socialLinks SocialLink[]
   stream Stream?
+  chatMessages ChatMessage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -56,8 +57,8 @@ model SocialLink {
   url       String
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("social_links")
 }
@@ -67,15 +68,19 @@ model Stream {
   title        String
   thumbnailUrl String?
 
-  serverUrl    String?
   ingressId    String?       @unique
+  serverUrl    String?
+  streamKey    String?
+
   isLive       Boolean       @default(false)
 
   user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String? @unique
 
   category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId String?    @map("category_id")
+  categoryId String?
+
+  chatMessages ChatMessage[]
 
   isChatEnabled              Boolean @default(true)
   isChatFollowersOnly        Boolean @default(false)
@@ -91,16 +96,30 @@ model Category {
   id           String   @id @default(uuid())
   title        String
   slug         String   @unique
-  description  String?
-  thumbnailUrl String   @map("thumbnail_url")
+  description  String
+  thumbnailUrl String
   streams      Stream[]
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("category")
 }
 
+model ChatMessage {
+  id   String @id @default(uuid())
+  text String
+
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  stream   Stream @relation(fields: [streamId], references: [id], onDelete: Cascade)
+  streamId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("chat_messages")
+}
 
 
 enum TokenType {
