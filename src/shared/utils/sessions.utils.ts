@@ -3,25 +3,20 @@ import { GqlContext } from '../types/gql-context.type'
 import { InternalServerErrorException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
-export async function saveSession(context: GqlContext, user: User, metadata: any) {
+export function saveSession(context: GqlContext, user: User, metadata: any) {
   const { req } = context
 
-  return new Promise((resolve, reject) => {
-    req.session.createdAt = new Date()
-    req.session.userId = user.id
-    req.session.metadata = metadata
+  req.session.createdAt = new Date()
+  req.session.userId = user.id
+  req.session.metadata = metadata
 
+  return new Promise((resolve, reject) => {
     req.session.save((error) => {
       if (error) {
         return reject(new InternalServerErrorException('Cannot save session'))
       }
 
       resolve(true)
-
-      console.log('сессия сохранилась')
-      console.log(req.secure)
-      console.log(req.protocol)
-      console.log(req.headers['x-forwarded-proto'])
     })
   })
 }

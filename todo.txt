@@ -270,45 +270,7 @@
 
 порядок запуска стрима
 
-так проверяю созраннение куки
+так проверяю созраннение куки (потратил на разбор 3 дня)
 
-1 (кука прокидываеться но после перезагрузки уже user unauth без onMount, пользователя находит после логина 1 раз но откуда тогда кука береться?)
-бек - proxy: null | domain: null | secure: true | sameSite: none
-фронт - apollo без header, getUser() сразу
-
-
-2 (кука прокидываеться но после перезагрузки уже user unauth без onMount)
-бек - proxy: null | domain: null | secure: true | sameSite: none
-фронт - apollo c header, getUser() сразу
-
-3 (кука прокидываеться но не сохраняться а cookies в браузере пользователя находит и после перезагрузки но откуда тогда кука береться?)
-бек - proxy: null | domain: null | secure: true | sameSite: none
-фронт - apollo c header, getUser() через хук
-
-4 (кука прокидываеться но не сохраняться а cookies в браузере пользователя находит и после перезагрузки но откуда тогда кука береться?)
-бек - proxy: true | domain: null | secure: true | sameSite: none
-фронт - apollo c header, getUser() через хук
-
-5 (кука прокидываеться но не сохраняться а cookies в браузере пользователя находит и после перезагрузки но откуда тогда кука береться?)
-бек - proxy: true | domain: null | secure: true | sameSite: none
-фронт - apollo без header, getUser() через хук
-
-6 (кука прокидываеться но после перезагрузки уже user unauth без onMount, пользователя находит после логина 1 раз но откуда тогда кука береться?)
-бек - proxy: true | domain: null | secure: true | sameSite: none
-фронт - apollo без header, getUser() сразу
-
-7 (кука прокидываеться пользователя находит после логина но откуда тогда кука береться?)
-бек - proxy: true | domain: есть | secure: true | sameSite: none
-фронт - apollo без header, getUser() через хук
-
-8 (кука прокидываеться но после перезагрузки уже user unauth без onMount, пользователя находит после логина 1 раз но откуда тогда кука береться?)
-бек - proxy: true | domain: есть | secure: true | sameSite: none
-фронт - apollo без header, getUser() сразу
-
-9 (кука прокидываеться но после перезагрузки уже user unauth без onMount, пользователя находит после логина 1 раз но откуда тогда кука береться?)
-бек - proxy: true | domain: есть | secure: false | sameSite: lax
-фронт - apollo без header, getUser() сразу
-
-9 (кука прокидываеться но после перезагрузки уже user unauth без onMount, пользователя находит после логина 1 раз но откуда тогда кука береться?)
-бек - proxy: true | domain: есть | secure: true | sameSite: none, httpOnly: false
-фронт - apollo без header, getUser() сразу
+в итоге у меня была проблема что user unauthorized когда получал его а это у меня было ошибкой gql
+а я ее не обрабатывал через try catch

@@ -69,7 +69,7 @@ export class SessionService {
 
   public async getCurrentSession(context: GqlContext) {
     const sessionId = context.req.sessionID
-    const key = `${this.configService.getOrThrow<string>('SESSION_FOLDER')}:${sessionId}`
+    const key = `${this.configService.getOrThrow<string>('SESSION_FOLDER')}${sessionId}`
 
     const sessionData = await this.redisService.client.get(key)
 
