@@ -8,7 +8,7 @@ export function getGraphQLConfig(configService: ConfigService): ApolloDriverConf
   return {
     playground: isDev(configService),
     path: configService.getOrThrow('GRAPHQL_PREFIX'),
-    autoSchemaFile: join(process.cwd(), 'generated/graphql/schema.gql'),
+    autoSchemaFile: join(process.cwd(), '/src/generated/graphql/schema.gql'),
     sortSchema: true,
     context: ({ req, res }: GqlContext) => ({ req, res }),
     csrfPrevention: false // for file uploads

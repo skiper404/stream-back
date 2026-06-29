@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { User } from 'generated/prisma/client'
+import { User } from 'src/generated/prisma/client'
 import { IngressClient, IngressInput, RoomServiceClient } from 'livekit-server-sdk'
 import { PrismaService } from 'src/core/prisma/prisma.service'
 

@@ -5,7 +5,7 @@ import { ChatService } from './chat.service'
 import { ChatMessageModel } from './models/chat-message.model'
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator'
 import { Authorization } from 'src/shared/decorators/auth.decorator'
-import type { User } from 'generated/prisma/client'
+import type { User } from 'src/generated/prisma/client'
 import { ChangeChatSettingsInput } from './inputs/change-chat-settings.input'
 import { SendMessageInput } from './inputs/send-message.input'
 

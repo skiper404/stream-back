@@ -1,5 +1,5 @@
-import { User } from 'generated/prisma/client'
-import { TokenType } from 'generated/prisma/enums'
+import { User } from 'src/generated/prisma/client'
+import { TokenType } from 'src/generated/prisma/enums'
 import { PrismaService } from 'src/core/prisma/prisma.service'
 
 export async function generateToken(

@@ -3,7 +3,7 @@ import { generateSecret, generateURI, verify } from 'otplib'
 import { PrismaService } from 'src/core/prisma/prisma.service'
 import QRCode from 'qrcode'
 import { EnableTotpInput } from './input/enable-totp.input'
-import { User } from 'generated/prisma/client'
+import { User } from 'src/generated/prisma/client'
 
 @Injectable()
 export class TotpService {

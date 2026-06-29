@@ -6,7 +6,7 @@ import type { GqlContext } from 'src/shared/types/gql-context.type'
 import { DeactivateAccountInput } from './input/deactivate-account.input'
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator'
 import { UserModel } from '../account/models/user.model'
-import type { User } from 'generated/prisma/client'
+import type { User } from 'src/generated/prisma/client'
 
 @Resolver()
 export class DeactivationResolver {

@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { TokenType, User } from 'generated/prisma/client'
+import { TokenType, User } from 'src/generated/prisma/client'
 import { PrismaService } from 'src/core/prisma/prisma.service'
 import { MailService } from 'src/modules/libs/mail/mail.service'
 import { GqlContext } from 'src/shared/types/gql-context.type'

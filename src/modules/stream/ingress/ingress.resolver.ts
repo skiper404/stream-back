@@ -3,7 +3,7 @@ import { Mutation, Query, Resolver } from '@nestjs/graphql'
 import { IngressService } from './ingress.service'
 import { Authorization } from 'src/shared/decorators/auth.decorator'
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator'
-import type { User } from 'generated/prisma/client'
+import type { User } from 'src/generated/prisma/client'
 import { IngressModel } from './models/ingress.model'
 import { RoomModel } from './models/room.model'
 

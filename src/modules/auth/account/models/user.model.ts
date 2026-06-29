@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
-import { User } from 'generated/prisma/client'
+import { User } from 'src/generated/prisma/client'
 import { SocialLinkModel } from '../../profile/models/social-link.model'
 import { StreamModel } from 'src/modules/stream/models/stream.model'
 

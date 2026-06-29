@@ -3,10 +3,11 @@ import { PrismaService } from 'src/core/prisma/prisma.service'
 import { CreateUserInput } from './inputs/create-user.input'
 import { hash, verify } from 'argon2'
 import { VerificationService } from '../verification/verification.service'
-import type { User } from 'generated/prisma/client'
+
 import { ChangeEmailInput } from './inputs/change-email.input'
 import { ChangePasswordInput } from './inputs/change-password.input'
 import { Authorization } from 'src/shared/decorators/auth.decorator'
+import type { User } from 'src/generated/prisma/client'
 
 @Injectable()
 export class AccountService {

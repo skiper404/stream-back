@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { PrismaService } from 'src/core/prisma/prisma.service'
 import { ResetPasswordInput } from './inputs/reset-password.input'
 import { generateToken } from 'src/shared/utils/generate-token.utils'
-import { TokenType } from 'generated/prisma/enums'
+import { TokenType } from 'src/generated/prisma/enums'
 import { getSessionMetadata } from 'src/shared/utils/session.metadata.utils'
 import { MailService } from 'src/modules/libs/mail/mail.service'
 import { NewPasswordInput } from './inputs/new-password.input'

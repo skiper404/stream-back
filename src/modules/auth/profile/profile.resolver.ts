@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { ProfileService } from './profile.service'
-import type { User } from 'generated/prisma/browser'
+import type { User } from 'src/generated/prisma/browser'
 import { Authorization } from 'src/shared/decorators/auth.decorator'
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator'
 import { FileValidationPipe } from 'src/shared/pipes/file-validation.pipe'

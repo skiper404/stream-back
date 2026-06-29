@@ -3,7 +3,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { ChangeChatSettingsInput } from './inputs/change-chat-settings.input'
 import { SendMessageInput } from './inputs/send-message.input'
 import { PrismaService } from 'src/core/prisma/prisma.service'
-import { User } from 'generated/prisma/client'
+import { User } from 'src/generated/prisma/client'
 
 @Injectable()
 export class ChatService {

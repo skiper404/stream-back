@@ -5,7 +5,7 @@ import { Authorization } from 'src/shared/decorators/auth.decorator'
 import { TotpModel } from './models/totp.model'
 import { EnableTotpInput } from './input/enable-totp.input'
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator'
-import type { User } from 'generated/prisma/client'
+import type { User } from 'src/generated/prisma/client'
 
 @Resolver()
 export class TotpResolver {

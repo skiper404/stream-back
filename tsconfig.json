@@ -16,9 +16,6 @@
     "baseUrl": "./",
     "ignoreDeprecations": "6.0",
     "jsx": "react-jsx",
-    "paths": {
-      "generated/*": ["generated/*"]
-    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,

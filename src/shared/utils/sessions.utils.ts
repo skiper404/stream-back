@@ -1,4 +1,4 @@
-import { User } from 'generated/prisma/client'
+import { User } from 'src/generated/prisma/client'
 import { GqlContext } from '../types/gql-context.type'
 import { InternalServerErrorException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'

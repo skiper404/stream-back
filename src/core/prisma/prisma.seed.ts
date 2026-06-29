@@ -3,7 +3,7 @@ import { BadRequestException, Logger } from '@nestjs/common'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { hash } from 'argon2'
 import 'dotenv/config'
-import { Prisma, PrismaClient } from 'generated/prisma/client'
+import { Prisma, PrismaClient } from 'src/generated/prisma/client'
 import { categoriesData, streamTitles, usernames } from 'src/shared/constants/seed-data'
 
 const adapter = new PrismaPg({

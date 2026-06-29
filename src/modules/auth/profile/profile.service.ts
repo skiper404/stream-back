@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Injectable } from '@nestjs/common'
-import { User } from 'generated/prisma/client'
+import { User } from 'src/generated/prisma/client'
 import { FileUpload } from 'graphql-upload-ts'
 import { PrismaService } from 'src/core/prisma/prisma.service'
 import { StorageService } from 'src/modules/libs/storage/storage.service'
