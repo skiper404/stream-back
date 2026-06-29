@@ -17,7 +17,7 @@ async function bootstrap() {
   app.use(cookieParser(config.getOrThrow('COOKIE_SECRET')))
 
   app.enableCors({
-    origin: [config.getOrThrow('ALLOWED_ORIGINS')],
+    origin: ['https://skiper.dev', 'https://www.skiper.dev'],
     credentials: true,
     exposedHeaders: ['set-cookie']
   })
