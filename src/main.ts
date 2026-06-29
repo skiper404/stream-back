@@ -32,8 +32,8 @@ async function bootstrap() {
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 дней
       httpOnly: config.getOrThrow('SESSION_HTTP_ONLY') === 'true', // нельзя читать с клиента
-      secure: false, // true - https only
-      sameSite: 'lax'
+      secure: true, // true - https only
+      sameSite: 'none'
     }
   }
 
