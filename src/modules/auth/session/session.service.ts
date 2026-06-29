@@ -59,6 +59,7 @@ export class SessionService {
     }
 
     const metadata = await getSessionMetadata(userAgent)
+    console.log(1)
 
     return saveSession(context, existingUser, metadata)
   }
